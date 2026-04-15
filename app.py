@@ -1,11 +1,14 @@
 import json
+import os
+from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from supabase import create_client
+load_dotenv()
 app = Flask(__name__)
 
 #Connect to Supabase DB
-SUPABASE_URL = "https://elyqlcqcmkvvrakgzvtc.supabase.co"
-SUPABASE_KEY = "sb_publishable_JX5ruW4jnO0j-e05C3L0KQ_dsooRy9_"
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 #DB functions

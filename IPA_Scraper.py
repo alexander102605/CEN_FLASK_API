@@ -19,4 +19,6 @@ def returnIPA(lang, word):
         # If the chosen website has no IPA
     IPA = HTML_text[IPA_index].replace('/','').replace(',','').replace('ˈ','').replace('[','').replace(']','')
     # cleans up the string so its just the IPA
-    return IPA
+    return [word, IPA]
+
+

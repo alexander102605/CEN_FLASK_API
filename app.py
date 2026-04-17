@@ -28,6 +28,7 @@ def insert_to_db(word, transcript):
         .insert({"word": word, "transcription": transcript})
         .execute()
     )
+    return response
 
 
 print(check_cache("test"))
@@ -38,10 +39,10 @@ sampleData = {"language": "en", "transcription": "hə'loʊ"}
 #api route
 @app.route('/', methods=['GET'])
 def get_data():
-    # return "hello world"
+#     # return "hello world"
     lang = request.args.get('lang','en')
-    transcript = request.args.get("word", "placeholder")
-    # scraped_data = webScrape(lang, transcript)
-    insert_to_db(sampleData)
-    return jsonify(sampleData) #REPLACE WITH REAL DATA
+    word = request.args.get('word', 'placeholder')
+    res = returnIPA(lang, word)
+    insert_to_db(res[0], res[1])
+    return jsonify(res[0], res[1]) #REPLACE WITH REAL DATA
 

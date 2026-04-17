@@ -39,9 +39,9 @@ sampleData = {"language": "en", "transcription": "hə'loʊ"}
 @app.route('/', methods=['GET'])
 def get_data():
     # return "hello world"
-    # lang = request.args.get('lang','en')
-    # transcript = request.args.get("word", "placeholder")
-    # # scraped_data = webScrape(lang, transcript)
-    # insert_to_db(sampleData)
+    lang = request.args.get('lang','en')
+    transcript = request.args.get("word", "placeholder")
+    # scraped_data = webScrape(lang, transcript)
+    insert_to_db(sampleData)
     return jsonify(sampleData) #REPLACE WITH REAL DATA
 

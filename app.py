@@ -36,7 +36,7 @@ print(check_cache("test"))
 sampleData = {"language": "en", "transcription": "hə'loʊ"}
 
 #api route
-@app.route('/api', methods=['GET'])
+@app.route('/', methods=['GET'])
 def get_data():
     lang = request.args.get('lang','en')
     transcript = request.args.get("word", "placeholder")

@@ -38,10 +38,10 @@ sampleData = {"language": "en", "transcription": "hə'loʊ"}
 #api route
 @app.route('/', methods=['GET'])
 def get_data():
-    return "hello world"
+    # return "hello world"
     # lang = request.args.get('lang','en')
     # transcript = request.args.get("word", "placeholder")
     # # scraped_data = webScrape(lang, transcript)
     # insert_to_db(sampleData)
-    # return jsonify(sampleData) #REPLACE WITH REAL DATA
+    return jsonify(sampleData) #REPLACE WITH REAL DATA
 

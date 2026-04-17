@@ -44,9 +44,11 @@ def get_data():
     # return "hello world"
     lang = request.args.get('lang','en')
     word = request.args.get('word', 'placeholder')
-    res = returnIPA(lang, word)
-
+    
     if (not check_cache(word)):
+        res = returnIPA(lang, word)
         insert_to_db(res[0], res[1])
-
-    return jsonify(res[0], res[1]) #REPLACE WITH REAL DATA
+        return jsonify(res[0],res[1])
+    else:
+        temp = check_cache(word)
+        return jsonify(temp[0]["word"], temp[0]["transcription"])

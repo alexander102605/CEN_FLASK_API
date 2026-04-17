@@ -18,8 +18,10 @@ def check_cache(word):
     response = (
         supabase.table("words")
         .select("*")
+        .eq("word",word)
         .execute()
     )
+
     return response.data
 
 def insert_to_db(word, transcript):
@@ -31,7 +33,7 @@ def insert_to_db(word, transcript):
     return response
 
 
-print(check_cache("test"))
+# print(check_cache("test"))
 
 #dummy data
 sampleData = {"language": "en", "transcription": "hə'loʊ"}
@@ -43,5 +45,8 @@ def get_data():
     lang = request.args.get('lang','en')
     word = request.args.get('word', 'placeholder')
     res = returnIPA(lang, word)
-    insert_to_db(res[0], res[1])
+
+    if (not check_cache(word)):
+        insert_to_db(res[0], res[1])
+
     return jsonify(res[0], res[1]) #REPLACE WITH REAL DATA

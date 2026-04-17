@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from supabase import create_client
+from IPA_Scraper import returnIPA
 load_dotenv()
 app = Flask(__name__)
 
@@ -13,18 +14,23 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 #DB functions
 
-def read_words():
-    return supabase.rpc('ReadWordDB').execute()
+def check_cache(word):
+    response = (
+        supabase.table("words")
+        .select("*")
+        .execute()
+    )
+    return response.data
 
-def read_IPA():
-    return supabase.rpc('ReadIPA').execute()
+def insert_to_db(word, transcript):
+    response = (
+        supabase.table("words")
+        .insert({"word": word, "transcription": transcript})
+        .execute
+    )
 
-def insert_to_db(scraped_word):
-    supabase.rpc("Insert_word", {"scraped_word":scraped_word}).execute()
 
-#scrape function
-def webScrape(lang, result):
-    pass
+print(check_cache("test"))
 
 #dummy data
 sampleData = {"language": "en", "transcription": "hə'loʊ"}
@@ -34,6 +40,7 @@ sampleData = {"language": "en", "transcription": "hə'loʊ"}
 def get_data():
     lang = request.args.get('lang','en')
     transcript = request.args.get("word", "placeholder")
-    scraped_data = webScrape(lang, transcript)
+    # scraped_data = webScrape(lang, transcript)
     insert_to_db(sampleData)
     return jsonify(sampleData) #REPLACE WITH REAL DATA
+

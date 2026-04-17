@@ -43,6 +43,6 @@ def get_data():
     lang = request.args.get('lang','en')
     word = request.args.get('word', 'placeholder')
     res = returnIPA(lang, word)
-    insert_to_db(res[0], res[1])
+    # insert_to_db(res[0], res[1])
     return jsonify(res[0], res[1]) #REPLACE WITH REAL DATA
 

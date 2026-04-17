@@ -36,13 +36,12 @@ print(check_cache("test"))
 #dummy data
 sampleData = {"language": "en", "transcription": "hə'loʊ"}
 
-#api route
+# api route
 @app.route('/', methods=['GET'])
 def get_data():
-#     # return "hello world"
+    # return "hello world"
     lang = request.args.get('lang','en')
     word = request.args.get('word', 'placeholder')
     res = returnIPA(lang, word)
-    # insert_to_db(res[0], res[1])
+    insert_to_db(res[0], res[1])
     return jsonify(res[0], res[1]) #REPLACE WITH REAL DATA
-

@@ -5,7 +5,7 @@ from supabase import create_client
 
 load_dotenv()
 
-
+# good practice? in my code... no way
 class DB:
     def __init__(self):
         self.SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -29,7 +29,8 @@ class DB:
             .execute()
         )
         return response
-
+    
+    # only really exists for unit testing
     def pull_cache(self):
         response = (
             self.connection.table("words")

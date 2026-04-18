@@ -13,8 +13,6 @@ conn = DB()
 
 # print(conn.check_cache(word="test"))
 
-# assert len(conn.check_cache("test")) > 0
-# assert type(returnIPA("en","word")) is list
 
 #dummy data
 sampleData = {"language": "en", "transcription": "hə'loʊ"}
@@ -22,10 +20,10 @@ sampleData = {"language": "en", "transcription": "hə'loʊ"}
 # api route
 @app.route('/', methods=['GET'])
 def get_data():
-    # return "hello world"
     lang = request.args.get('lang','en')
     word = request.args.get('word', 'placeholder')
     
+    # sneaky caching system, def not optimal but it works
     if (not conn.check_cache(word)):
         res = returnIPA(lang, word)
         conn.insert_to_db(res[0], res[1])

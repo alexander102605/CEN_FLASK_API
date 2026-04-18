@@ -1,5 +1,6 @@
 import json
 import os
+from flask_cors import CORS, cross_origin
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from supabase import create_client
@@ -8,7 +9,12 @@ load_dotenv()
 app = Flask(__name__)
 from dbFunctions import DB
 
+allowed_origins = [
+    "http://localhost:5173",
+    "https://cen4010-finalproject.onrender.com"
+]
 
+CORS(app, resources={r"/*": {"origins": allowed_origins}})
 conn = DB()
 
 # print(conn.check_cache(word="test"))

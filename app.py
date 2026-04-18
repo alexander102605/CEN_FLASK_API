@@ -6,34 +6,15 @@ from supabase import create_client
 from IPA_Scraper import returnIPA
 load_dotenv()
 app = Flask(__name__)
-
-#Connect to Supabase DB
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-
-#DB functions
-
-def check_cache(word):
-    response = (
-        supabase.table("words")
-        .select("*")
-        .eq("word",word)
-        .execute()
-    )
-
-    return response.data
-
-def insert_to_db(word, transcript):
-    response = (
-        supabase.table("words")
-        .insert({"word": word, "transcription": transcript})
-        .execute()
-    )
-    return response
+from dbFunctions import DB
 
 
-# print(check_cache("test"))
+conn = DB()
+
+# print(conn.check_cache(word="test"))
+
+# assert len(conn.check_cache("test")) > 0
+# assert type(returnIPA("en","word")) is list
 
 #dummy data
 sampleData = {"language": "en", "transcription": "hə'loʊ"}
@@ -45,10 +26,10 @@ def get_data():
     lang = request.args.get('lang','en')
     word = request.args.get('word', 'placeholder')
     
-    if (not check_cache(word)):
+    if (not conn.check_cache(word)):
         res = returnIPA(lang, word)
-        insert_to_db(res[0], res[1])
+        conn.insert_to_db(res[0], res[1])
         return jsonify(res[0],res[1])
     else:
-        temp = check_cache(word)
+        temp = conn.check_cache(word)
         return jsonify(temp[0]["word"], temp[0]["transcription"])
